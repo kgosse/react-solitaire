@@ -35,9 +35,20 @@ module.exports = {
                 loader: 'react-hot!babel-loader'
             },
             {
-                test: /\.scss$/,
+                test: /\.(scss|css)$/,
                 include: path.join(__dirname, 'src/styles'),
                 loader: 'style!css!sass!'
+            },
+            {
+                test: /\.(ttf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
+                loader: 'file'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                loaders: [
+                    'file?hash=sha512&digest=hex&name=[hash].[ext]',
+                    'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+                ]
             }
         ]
     }
