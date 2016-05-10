@@ -35,9 +35,9 @@ module.exports = {
                 loader: 'react-hot!babel-loader'
             },
             {
-                test: /\.(scss|css)$/,
+                test:   /\.css$/,
                 include: path.join(__dirname, 'src/styles'),
-                loader: 'style!css!sass!'
+                loader: "style-loader!css-loader!postcss-loader"
             },
             {
                 test: /\.(ttf|eot|woff(2)?)(\?[a-z0-9]+)?$/,
