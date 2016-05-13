@@ -24,6 +24,17 @@ export default class App extends Component {
         <div></div>
       </div>
     );
+    
+    let tableaux = [];
+    for (let i = 0; i < 7; ++i) {
+      let tableau = (
+        <div className="pile" key={i}>
+          <div></div>
+        </div>
+      );
+      tableaux.push(tableau);
+    }
+    
     return (
       <div>
         <p>
@@ -32,11 +43,15 @@ export default class App extends Component {
         </p>
         <div className="top-row">
           {foundations}
+          <div className="no-pile"></div>
+          <div className="no-pile"></div>
+          {remainder}
+          {waste}
         </div>
-        <div className="no-pile"></div>
-        <div className="no-pile"></div>
-        {remainder}
-        {waste}
+        <div className="tableau-row">
+          <div className="no-pile"></div>
+          {tableaux}
+        </div>
       </div>
     );
   }
