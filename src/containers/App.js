@@ -1,6 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import * as deckActions from '../actions/deck';
+import * as remainderActions from '../actions/remainder';
+import * as CardService from '../services/card';
 
-export default class App extends Component {
+import Remainder from '../components/Remainder';
+import Waste from '../components/Waste';
+import NoPile from '../components/NoPile';
+
+class App extends Component {
+
+  constructor(props) {
+    super(props);
+
+  }
+  
+  _handleRemainderClick = () => {
+    this.props.dispatch(remainderActions.click());
+  };
+  
+  componentWillMount() {
+    let cards = CardService.shuffled();
+    this.props.dispatch(deckActions.newGame(cards));
+    this.props.dispatch(remainderActions.newGame(cards));
+  }
+  
   render() {
     
     let foundations = [];
@@ -12,18 +36,6 @@ export default class App extends Component {
       );
       foundations.push(foundation);
     }
-    
-    let remainder = (
-      <div className="pile">
-        <div></div>
-      </div>
-    );
-    
-    let waste = (
-      <div className="pile">
-        <div></div>
-      </div>
-    );
     
     let tableaux = [];
     for (let i = 0; i < 7; ++i) {
@@ -43,16 +55,27 @@ export default class App extends Component {
         </p>
         <div className="top-row">
           {foundations}
-          <div className="no-pile"></div>
-          <div className="no-pile"></div>
-          {remainder}
-          {waste}
+          <NoPile></NoPile>
+          <NoPile></NoPile>
+          <Remainder card={CardService.topCard(this.props.remainder.cards)} click={this._handleRemainderClick}></Remainder>
+          <Waste card={CardService.topCard(this.props.remainder.waste)}></Waste>
         </div>
         <div className="tableau-row">
-          <div className="no-pile"></div>
+          <NoPile></NoPile>
           {tableaux}
         </div>
       </div>
     );
   }
 }
+
+function mapStateToProps({deck, remainder}) {
+  return {
+    deck,
+    remainder
+  }
+}
+
+App = connect(mapStateToProps)(App);
+
+export default App;
